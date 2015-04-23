@@ -12,17 +12,102 @@
       app:elevation="4dp"
       app:popupTheme="@style/Theme.AppCompat.Light"/>
 
-  <FrameLayout
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:padding="@dimen/spacing"
+      android:orientation="vertical"
       android:layout_below="@id/toolbar">
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/profile_image"
+        android:id="@+id/img_profile"
+        android:layout_height="@dimen/profile_image"
+        android:contentDescription="@string/photo"/>
+
+    <!-- ID -->
+    <TextView
+        style="@style/Text.Sub"
+        android:layout_marginTop="@dimen/spacing"
+        android:layout_width="match_parent"
+        android:text="@string/id"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_id"
+        style="@style/Text.Title"
+        android:layout_marginTop="@dimen/spacing_xsmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Name -->
+    <TextView
+        style="@style/Text.Sub"
+        android:layout_marginTop="@dimen/spacing"
+        android:layout_width="match_parent"
+        android:text="@string/name"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_name"
+        style="@style/Text.Title"
+        android:layout_marginTop="@dimen/spacing_xsmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- E-mail -->
+    <TextView
+        style="@style/Text.Sub"
+        android:layout_marginTop="@dimen/spacing"
+        android:layout_width="match_parent"
+        android:text="@string/email"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_email"
+        style="@style/Text.Title"
+        android:layout_marginTop="@dimen/spacing_xsmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Gender -->
+    <TextView
+        style="@style/Text.Sub"
+        android:layout_marginTop="@dimen/spacing"
+        android:layout_width="match_parent"
+        android:text="@string/gender"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_gender"
+        style="@style/Text.Title"
+        android:layout_marginTop="@dimen/spacing_xsmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Birthday -->
+    <TextView
+        style="@style/Text.Sub"
+        android:layout_marginTop="@dimen/spacing"
+        android:layout_width="match_parent"
+        android:text="@string/birthday"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_birthday"
+        style="@style/Text.Title"
+        android:layout_marginTop="@dimen/spacing_xsmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/btn_login"
         android:text="@string/login"
         android:background="@drawable/btn_theme_rounded"
         android:clickable="true"
+        android:layout_marginTop="@dimen/spacing_xlarge"
         android:layout_width="match_parent"
         android:textColor="@color/white"
         android:padding="@dimen/spacing"
@@ -30,6 +115,6 @@
         android:textSize="@dimen/text_medium"
         android:layout_height="wrap_content"/>
 
-  </FrameLayout>
+  </LinearLayout>
 
 </RelativeLayout>

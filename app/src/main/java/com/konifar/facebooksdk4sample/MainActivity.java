@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -20,8 +24,10 @@ import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.Arrays;
 import java.util.List;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends FragmentActivity {
@@ -30,6 +36,23 @@ public class MainActivity extends FragmentActivity {
   private static final List<String> PUBLISH_PERMISSIONS = Arrays.asList("publish_actions");
   private static final List<String> READ_PERMISSIONS =
       Arrays.asList("email", "user_birthday", "user_friends");
+
+  private static final String ID = "id";
+  private static final String NAME = "name";
+  private static final String PICTURE = "picture";
+  private static final String EMAIL = "email";
+  private static final String BIRTHDAY = "birthday";
+  private static final String GENDER = "gender";
+  private static final String REQUEST_FIELDS =
+      TextUtils.join(",", new String[] { ID, NAME, PICTURE, EMAIL, BIRTHDAY, GENDER });
+  private static final String FIELDS = "fields";
+
+  @InjectView(R.id.img_profile) ImageView imgProfile;
+  @InjectView(R.id.txt_id) TextView txtId;
+  @InjectView(R.id.txt_name) TextView txtName;
+  @InjectView(R.id.txt_birthday) TextView txtBirthday;
+  @InjectView(R.id.txt_email) TextView txtEmail;
+  @InjectView(R.id.txt_gender) TextView txtGender;
 
   private CallbackManager callbackManager;
   private AccessTokenTracker accessTokenTracker;
@@ -111,17 +134,43 @@ public class MainActivity extends FragmentActivity {
           @Override
           public void onCompleted(JSONObject object, GraphResponse response) {
             Log.e(TAG, "response: " + response.toString());
+            JSONObject json = response.getJSONObject();
+            renderView(json);
           }
         });
     Bundle parameters = new Bundle();
-    parameters.putString("fields", "id,name,email,gender,birthday");
+    parameters.putString(FIELDS, REQUEST_FIELDS);
     request.setParameters(parameters);
     request.executeAsync();
   }
 
+  private void renderView(JSONObject json) {
+    try {
+      final long id = json.getLong(ID);
+      final String name = json.getString(NAME);
+      final String email = json.getString(EMAIL);
+      final String picture = json.getJSONObject("picture").getJSONObject("data").getString("url");
+      final String birthday = json.getString(BIRTHDAY);
+      final String gender = json.getString(GENDER);
+
+      txtId.setText(String.valueOf(id));
+      txtName.setText(name);
+      txtBirthday.setText(birthday);
+      txtGender.setText(gender);
+      txtEmail.setText(email);
+      Log.e(TAG, "picture: " + picture);
+      ImageLoader.getInstance().displayImage(picture, imgProfile);
+    } catch (JSONException e) {
+      Log.e(TAG, e.getMessage());
+    }
+  }
+
   private void setProfile(Profile profile) {
     if (profile != null) {
-      Log.e(TAG, "Name: " + profile.getName() + ", Id: " + profile.getId());
+      txtId.setText(String.valueOf(profile.getId()));
+      txtName.setText(profile.getName());
+      ImageLoader.getInstance()
+          .displayImage(profile.getProfilePictureUri(100, 100).toString(), imgProfile);
     } else {
       Log.e(TAG, "profile is null.");
     }

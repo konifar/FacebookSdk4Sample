@@ -1,4 +1,10 @@
 <resources>
   <string name="app_name">Facebook SDK 4 Sample</string>
   <string name="login">Login</string>
+  <string name="photo">Photo</string>
+  <string name="name">Name</string>
+  <string name="birthday">Birthday</string>
+  <string name="id">ID</string>
+  <string name="gender">Gender</string>
+  <string name="email">E-mail</string>
 </resources>
