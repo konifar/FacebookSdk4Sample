@@ -12,4 +12,7 @@
   <!-- Line -->
   <dimen name="line_small">1sp</dimen>
 
+  <!-- Radius -->
+  <dimen name="radius_small">4sp</dimen>
+
 </resources>

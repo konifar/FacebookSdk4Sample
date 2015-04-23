@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Facebook SDK 4 Sample</string>
+  <string name="login">Login</string>
 </resources>
