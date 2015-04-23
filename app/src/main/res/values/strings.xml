@@ -7,4 +7,8 @@
   <string name="id">ID</string>
   <string name="gender">Gender</string>
   <string name="email">E-mail</string>
+
+  <string name="share">Share</string>
+
+  <string name="share_dialog">Share by dialog</string>
 </resources>

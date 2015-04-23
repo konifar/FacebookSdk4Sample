@@ -36,4 +36,16 @@
     <item name="android:scrollingCache">false</item>
   </style>
 
+  <style name="Button">
+    <item name="android:clickable">true</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textSize">@dimen/text_medium</item>
+    <item name="android:padding">@dimen/spacing</item>
+  </style>
+
+  <style name="Button.Theme">
+    <item name="android:background">@drawable/btn_theme_rounded</item>
+    <item name="android:textColor">@color/white</item>
+  </style>
+
 </resources>

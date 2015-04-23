@@ -33,7 +33,6 @@ import org.json.JSONObject;
 public class MainActivity extends FragmentActivity {
 
   private static final String TAG = MainActivity.class.getSimpleName();
-  private static final List<String> PUBLISH_PERMISSIONS = Arrays.asList("publish_actions");
   private static final List<String> READ_PERMISSIONS =
       Arrays.asList("email", "user_birthday", "user_friends");
 
@@ -61,11 +60,11 @@ public class MainActivity extends FragmentActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    initFacebook();
     setContentView(R.layout.activity_main);
     ButterKnife.inject(this);
     Log.e(TAG, "onCreate");
 
+    initFacebook();
     initToolbar();
   }
 
@@ -198,5 +197,9 @@ public class MainActivity extends FragmentActivity {
     Log.e(TAG, "onClickBtnLogin");
     LoginManager manager = LoginManager.getInstance();
     manager.logInWithReadPermissions(this, READ_PERMISSIONS);
+  }
+
+  @OnClick(R.id.btn_share) void onClickBtnShare() {
+    ShareActivity.start(this);
   }
 }
