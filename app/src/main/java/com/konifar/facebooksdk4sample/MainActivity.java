@@ -7,15 +7,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import java.util.Arrays;
 import java.util.List;
+import org.json.JSONObject;
 
 public class MainActivity extends FragmentActivity {
 
@@ -25,6 +32,8 @@ public class MainActivity extends FragmentActivity {
       Arrays.asList("email", "user_birthday", "user_friends");
 
   private CallbackManager callbackManager;
+  private AccessTokenTracker accessTokenTracker;
+  private ProfileTracker profileTracker;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +70,7 @@ public class MainActivity extends FragmentActivity {
           @Override
           public void onSuccess(LoginResult loginResult) {
             Log.e(TAG, "onSuccess");
+            requestUserInfo(loginResult.getAccessToken());
           }
 
           @Override
@@ -73,6 +83,48 @@ public class MainActivity extends FragmentActivity {
             Log.e(TAG, "onError");
           }
         });
+
+    accessTokenTracker = new AccessTokenTracker() {
+      @Override
+      protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
+          AccessToken currentAccessToken) {
+        // On AccessToken changes fetch the new profile which fires the event on
+        // the ProfileTracker if the profile is different
+        Profile.fetchProfileForCurrentAccessToken();
+      }
+    };
+
+    profileTracker = new ProfileTracker() {
+      @Override protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+        setProfile(currentProfile);
+      }
+    };
+
+    // Ensure that our profile is up to date
+    Profile.fetchProfileForCurrentAccessToken();
+    setProfile(Profile.getCurrentProfile());
+  }
+
+  private void requestUserInfo(AccessToken accessToken) {
+    GraphRequest request =
+        GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+          @Override
+          public void onCompleted(JSONObject object, GraphResponse response) {
+            Log.e(TAG, "response: " + response.toString());
+          }
+        });
+    Bundle parameters = new Bundle();
+    parameters.putString("fields", "id,name,email,gender,birthday");
+    request.setParameters(parameters);
+    request.executeAsync();
+  }
+
+  private void setProfile(Profile profile) {
+    if (profile != null) {
+      Log.e(TAG, "Name: " + profile.getName() + ", Id: " + profile.getId());
+    } else {
+      Log.e(TAG, "profile is null.");
+    }
   }
 
   private void initToolbar() {
@@ -84,6 +136,13 @@ public class MainActivity extends FragmentActivity {
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     callbackManager.onActivityResult(requestCode, resultCode, data);
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    accessTokenTracker.stopTracking();
+    profileTracker.stopTracking();
   }
 
   @OnClick(R.id.btn_login) void onClickBtnLogin() {
