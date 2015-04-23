@@ -11,4 +11,8 @@
   <string name="share">Share</string>
 
   <string name="share_dialog">Share by dialog</string>
+  <string name="share_auto">Share automatic</string>
+  <string name="share_photo_auto">Share photo automatic</string>
+  <string name="share_auto_completed">Auto share completed!</string>
+  <string name="share_auto_failed">Auto share failed!</string>
 </resources>

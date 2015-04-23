@@ -20,11 +20,36 @@
       android:layout_below="@id/toolbar">
 
     <TextView
-        android:id="@+id/btn_share"
-        android:text="@string/share"
+        android:id="@+id/btn_share_dialog"
+        android:text="@string/share_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Button.Theme"/>
+
+    <TextView
+        android:id="@+id/btn_share_auto"
+        android:text="@string/share_auto"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Button.Theme"/>
+
+    <TextView
+        android:id="@+id/btn_share_photo_auto"
+        android:text="@string/share_photo_auto"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Button.Theme"/>
+
+    <TextView
+        android:id="@+id/txt_share_auto_result"
+        android:layout_marginTop="@dimen/spacing"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/accent500"
+        android:textSize="@dimen/text_large"/>
 
   </LinearLayout>
 
